@@ -43,4 +43,6 @@ use Illuminate\Support\Facades\Route;
 // Route::get('php', 'HomeController@phpPage');
 // Route::get('js', 'HomeController@jsPage');
 
-Route::get('/', 'ReceipeController@index');
+Route::resource('receipe', 'ReceipeController');
+
+
