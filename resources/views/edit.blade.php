@@ -26,9 +26,14 @@
               <input type="text" name="ingredients" class="form-control" value="{{ $receipe->ingredients }}" required>
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1">Category</label>
-                <input type="text" name="category" class="form-control" value="{{ $receipe->category }}" required>
-              </div>
+              <select class="form-control" name="category">
+                @foreach($category as $value)
+                  <option value="{{ $value->id }}"
+                   {{ $receipe->categories->id == $value->id ? "selected" : "" }}
+                  >{{ $value->name }}</option>
+                @endforeach
+              </select>
+            </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>

@@ -14,14 +14,7 @@
                         </div>
                     @endif
 
-                    <div class="container">
-						<h2>Home Page</h2>
-						<a href="/receipe/create"><button class="btn btn-success">Create</button></a>
-						@foreach($data as $value)
-						<a href="/receipe/{{ $value->id }}"><li>{{ $value->name }}</li></a>
-						<hr>
-						@endforeach
-					</div>
+                    Please Login
                 </div>
             </div>
         </div>
