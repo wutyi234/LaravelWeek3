@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Mail\ReceipeStored;
 use App\Receipe;
+use App\test;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ReceipeController extends Controller
 {
@@ -50,13 +53,9 @@ class ReceipeController extends Controller
             'ingredients' => 'required',
             'category' => 'required',
         ]);
-        Receipe::create($validatedData + ['author_id' => auth()->id() ]);
 
-        // Receipe::create([
-        //     'name' => request()->name,
-        //     'ingredients' => request()->ingredients,
-        //     'category' => request()->category
-        // ]);
+        $receipe = Receipe::create($validatedData + ['author_id' => auth()->id() ]);
+
         return redirect("receipe");
     }
 
@@ -68,10 +67,6 @@ class ReceipeController extends Controller
      */
     public function show(Receipe $receipe)
     {
-        //
-        // if($receipe->author_id != auth()->id()){
-        //     abort(403);
-        // }
 
         $this->authorize('view', $receipe);
         return view('show', compact('receipe'));
@@ -109,7 +104,7 @@ class ReceipeController extends Controller
             'category' => 'required',
         ]);
         $receipe->update($validatedData);
-        return redirect("receipe");
+        return redirect("receipe")->with("message",'Receipe has updated succsessfully!');
     }
 
     /**
@@ -123,7 +118,7 @@ class ReceipeController extends Controller
         //
         $this->authorize('view', $receipe);
         $receipe->delete();
-        return redirect("receipe");
+        return redirect("receipe")->with("message",'Receipe has deleted succsessfully!');
     }
 }
 
