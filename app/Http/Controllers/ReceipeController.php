@@ -3,8 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Events\ReceipeCreatedEvent;
+use App\Events\ReceipeDestroyedEvent;
+use App\Events\ReceipeUpdatedEvent;
 use App\Mail\ReceipeStored;
+use App\Notifications\ReceipeDestroyedNotification;
+use App\Notifications\ReceipeStoredNotification;
+use App\Notifications\ReceipeUpdatedNotification;
 use App\Receipe;
+use App\User;
 use App\test;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -23,7 +30,22 @@ class ReceipeController extends Controller
     public function index()
     {
         //
-        $data = Receipe::where('author_id', auth()->id() )->get();
+        // $user = User::find(2);
+        // $user->notify(new ReceipeStoredNotification());
+        // echo "send notification";
+        // exit();
+
+        // $user = User::find(2);
+        // $user->notify(new ReceipeUpdatedNotification());
+        // echo "Update Notification";
+        // exit();
+
+        // $user = User::find(2);
+        // $user->notify(new ReceipeDestroyedNotification());
+        // echo "Delete Notification";
+        // exit();
+
+        $data = Receipe::where('author_id', auth()->id() )->paginate(4);
     	return view('home', compact('data'));
     }
 
@@ -55,6 +77,8 @@ class ReceipeController extends Controller
         ]);
 
         $receipe = Receipe::create($validatedData + ['author_id' => auth()->id() ]);
+
+        //event(new ReceipeCreatedEvent($receipe));
 
         return redirect("receipe");
     }
@@ -104,6 +128,9 @@ class ReceipeController extends Controller
             'category' => 'required',
         ]);
         $receipe->update($validatedData);
+
+        event(new ReceipeUpdatedEvent($receipe));
+
         return redirect("receipe")->with("message",'Receipe has updated succsessfully!');
     }
 
@@ -118,6 +145,9 @@ class ReceipeController extends Controller
         //
         $this->authorize('view', $receipe);
         $receipe->delete();
+
+        event(new ReceipeDestroyedEvent($receipe));
+
         return redirect("receipe")->with("message",'Receipe has deleted succsessfully!');
     }
 }

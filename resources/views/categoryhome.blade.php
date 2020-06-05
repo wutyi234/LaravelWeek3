@@ -22,9 +22,9 @@
                           </button>
                         </div>
                         @endif
-						<a href="/receipe/create"><button class="btn btn-success">Create</button></a>
+						<a href="/category/create"><button class="btn btn-success">Create</button></a>
 						@foreach($data as $value)
-						<a href="/receipe/{{ $value->id }}"><li>{{ $value->name }}</li></a>
+						<a href="/category/{{ $value->id }}"><li>{{ $value->name }}</li></a>
 						<hr>
 						@endforeach
 					</div>

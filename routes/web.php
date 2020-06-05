@@ -44,11 +44,13 @@ use Illuminate\Support\Facades\Route;
 // Route::get('php', 'HomeController@phpPage');
 // Route::get('js', 'HomeController@jsPage');
 
-Route::get('/', function(){
-	dd(app('test'));
-});
+Route::get('/', 'PublicController@index');
+
+Route::get('detail/{id}', 'PublicController@show');
 
 Route::resource('receipe', 'ReceipeController');
+
+Route::resource('category', 'CategoryController');
 
 Route::get('home', 'HomeController@index');
 
